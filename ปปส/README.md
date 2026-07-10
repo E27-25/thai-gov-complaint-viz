@@ -1,0 +1,110 @@
+# 🔦 ปปส — เบาะแส/ร้องเรียนยาเสพติด (ONCB)
+
+การตรวจสอบ**เบาะแส/ร้องเรียนยาเสพติด**รายเดือน แยกตามจังหวัด จากสำนักงานคณะกรรมการป้องกันและปราบปรามยาเสพติด (ป.ป.ส. / ONCB)
+
+| | |
+|---|---|
+| **ช่วงเวลา** | ปีงบประมาณ 2560–2567 (96 เดือน) |
+| **ขอบเขต** | 77 จังหวัด · 10 ภาค ปปส. |
+| **ปริมาณ** | 7,286 แถว · 144,117 เบาะแส |
+| **อัตราพบพฤติการณ์** | 31% ของที่ตรวจสอบ |
+
+<p align="center">
+  <img src="../assets/pps_map.png" width="46%"/>
+  <img src="../assets/pps_forecast.png" width="52%"/>
+</p>
+
+---
+
+## 🔌 API — วิธีดึงข้อมูล
+
+**Data catalog:** https://gdcatalog.go.th/dataset/gdpublish-complain-04
+**API portal:** https://data.oncb.go.th/complain_021
+
+ข้อมูลดึงจาก ONCB API สาธารณะ (ไม่ต้อง auth) 2 endpoint:
+
+### 1) รายเดือน (ใช้เป็นข้อมูลหลัก) — `complainVerify`
+
+```
+GET https://dataapi.oncb.go.th/suppress/complainVerify/{NEWS_MONTH_CODE}/{NEWS_YEAR}
+```
+
+| Query param | Type | คำอธิบาย |
+|-------------|------|----------|
+| `NEWS_MONTH_CODE` | String | รหัสเดือน `01`–`12` |
+| `NEWS_YEAR` | Integer | ปี พ.ศ. (2560–2567) |
+
+คืนค่า JSON `{"data":[ {…per province…} ]}` — โครงสร้างเป็น **matrix 5 กลุ่มเป้าหมาย × 3 ผลตรวจสอบ**:
+
+<details><summary><b>📋 Data dictionary (คลิกเพื่อดูทั้งหมด)</b></summary>
+
+| Field | คำอธิบาย |
+|-------|----------|
+| `PROV_ID` / `PROV_NAME` | รหัส / ชื่อจังหวัด |
+| `NEWS_MONTH_CODE` / `NEWS_YEAR` | เดือน / ปี พ.ศ. |
+| `COMPLAIN_ALL` | ร้องเรียนทั้งหมด (เรื่อง) |
+| `ALL1` / `ALL2` / `ALL3` | ผลตรวจสอบ: พบพฤติการณ์ / ไม่พบ / พิสูจน์ทราบไม่ได้ |
+| `ALL123` | ตรวจสอบทั้งหมด |
+| **กลุ่มเป้าหมาย 5 กลุ่ม** (แต่ละกลุ่มมี suffix `1`/`2`/`3`/`123` = ผลตรวจสอบ) | |
+| `FOUNDS`, `F1`–`F123` | **กลุ่ม 1:** มีตัวตน · พบพฤติการณ์ |
+| `NOTFOUNDS`, `NF1`–`NF123` | **กลุ่ม 2:** มีตัวตน · ไม่พบพฤติการณ์ |
+| `UNKNOW`, `U1`–`U123` | **กลุ่ม 3:** ไม่มีตัวตนใน ทร.14 |
+| `PLACE`, `P1`–`P123` | **กลุ่ม 4:** กลุ่มสถานที่ |
+| `AREA`, `A1`–`A123` | **กลุ่ม 5:** กลุ่มพื้นที่ |
+
+> `COMPLAIN_ALL` = `FOUNDS + NOTFOUNDS + UNKNOW + PLACE + AREA` (แยกตามกลุ่มเป้าหมาย) ≈ `ALL1 + ALL2 + ALL3` (แยกตามผลตรวจสอบ)
+
+</details>
+
+### 2) รายปี — `complain` (ใช้ map จังหวัด → ภาค ปปส.)
+
+```
+GET https://dataapi.oncb.go.th/suppress/complain/{year}     # year = 2558–2566
+```
+ให้ `REG_ONCB` / `REG_NAME` (ภาค ปปส. 1–9 + กทม.) สำหรับสร้าง treemap ลำดับชั้น ภาค → จังหวัด
+
+### ตัวอย่างดึงข้อมูลทั้งหมด (Python)
+
+```python
+import urllib.request, json, csv
+rows = []
+for year in range(2560, 2568):
+    for m in range(1, 13):
+        url = f"https://dataapi.oncb.go.th/suppress/complainVerify/{m:02d}/{year}"
+        with urllib.request.urlopen(url, timeout=30) as r:
+            rows += json.load(r).get("data", [])
+# -> บันทึกเป็น oncb_verify_monthly.csv (encoding='utf-8-sig')
+```
+
+---
+
+## 📁 ไฟล์ในโฟลเดอร์
+
+| ไฟล์ | คำอธิบาย |
+|------|----------|
+| `pps_viz.ipynb` | Notebook หลัก (22 เซลล์) — EDA · แผนที่ · K-Means · SARIMA |
+| `pps_viz.html` | Dashboard แบบ interactive (เปิดในเบราว์เซอร์ได้เลย) |
+| `oncb_verify_monthly.csv` | ข้อมูลรายเดือน 7,286 แถว |
+| `oncb_complaint_04.csv` | ข้อมูลรายปี (สำหรับ map ภาค) |
+| `th_provinces.geojson` | ขอบเขตจังหวัด (77 จังหวัด, มี `pro_th`) |
+
+## 📊 สิ่งที่อยู่ใน Notebook
+
+1. **Treemap** — ภาค ปปส. → จังหวัด (จำนวนเบาะแส)
+2. **แผนที่ Choropleth** — เบาะแสรายจังหวัด (สีเข้ม = มาก)
+3. **Time series** — เบาะแสรายเดือน + ผลตรวจสอบ 3 แบบ
+4. **Top 15 จังหวัด**
+5. **K-Means (k=5)** + PCA scatter + cluster profiles
+6. **🔮 SARIMA forecast** — พยากรณ์รายเดือน (ด้านล่าง)
+
+## 🔮 Predictive Model — SARIMA
+
+`SARIMA(1,1,1)(1,1,1)₁₂` พยากรณ์จำนวนเบาะแสรายเดือนทั้งประเทศ
+
+- **Train/test:** กันข้อมูล 12 เดือนสุดท้ายไว้ทดสอบ
+- **ผล (holdout 12 เดือน):** MAE **244** · RMSE **295** · MAPE **13.4%**
+- refit ข้อมูลทั้งหมด → พยากรณ์ล่วงหน้า 12 เดือน (ปี 2568) พร้อมช่วงความเชื่อมั่น 95%
+
+**K-Means 12 features:** สัดส่วนกลุ่มเป้าหมาย 5 + สัดส่วนผลตรวจสอบ 3 + found_rate + verify_rate + log_volume + trend
+
+<p align="center"><img src="../assets/pps_clusters.png" width="70%"/></p>
