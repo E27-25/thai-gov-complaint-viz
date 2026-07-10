@@ -4,10 +4,10 @@
 
 | | |
 |---|---|
-| **ช่วงเวลา** | ปีงบประมาณ 2560–2567 (96 เดือน) |
+| **ช่วงเวลา** | ปีงบประมาณ 2560–2569 (114 เดือน · ล่าสุด มิ.ย. 2569) |
 | **ขอบเขต** | 77 จังหวัด · 10 ภาค ปปส. |
-| **ปริมาณ** | 7,286 แถว · 144,117 เบาะแส |
-| **อัตราพบพฤติการณ์** | 31% ของที่ตรวจสอบ |
+| **ปริมาณ** | 8,669 แถว · 194,795 เบาะแส |
+| **อัตราพบพฤติการณ์** | 33% ของที่ตรวจสอบ |
 
 <p align="center">
   <img src="../assets/pps_map.png" width="46%"/>
@@ -32,7 +32,7 @@ GET https://dataapi.oncb.go.th/suppress/complainVerify/{NEWS_MONTH_CODE}/{NEWS_Y
 | Query param | Type | คำอธิบาย |
 |-------------|------|----------|
 | `NEWS_MONTH_CODE` | String | รหัสเดือน `01`–`12` |
-| `NEWS_YEAR` | Integer | ปี พ.ศ. (2560–2567) |
+| `NEWS_YEAR` | Integer | ปี พ.ศ. (2560–2569) |
 
 คืนค่า JSON `{"data":[ {…per province…} ]}` — โครงสร้างเป็น **matrix 5 กลุ่มเป้าหมาย × 3 ผลตรวจสอบ**:
 
@@ -68,7 +68,7 @@ GET https://dataapi.oncb.go.th/suppress/complain/{year}     # year = 2558–2566
 ```python
 import urllib.request, json, csv
 rows = []
-for year in range(2560, 2568):
+for year in range(2560, 2570):   # 2569 มีถึงเดือน 06 (มิ.ย. 2026)
     for m in range(1, 13):
         url = f"https://dataapi.oncb.go.th/suppress/complainVerify/{m:02d}/{year}"
         with urllib.request.urlopen(url, timeout=30) as r:
@@ -84,7 +84,7 @@ for year in range(2560, 2568):
 |------|----------|
 | `pps_viz.ipynb` | Notebook หลัก (22 เซลล์) — EDA · แผนที่ · K-Means · SARIMA |
 | `pps_viz.html` | Dashboard แบบ interactive (เปิดในเบราว์เซอร์ได้เลย) |
-| `oncb_verify_monthly.csv` | ข้อมูลรายเดือน 7,286 แถว |
+| `oncb_verify_monthly.csv` | ข้อมูลรายเดือน 8,669 แถว (2560–2569) |
 | `oncb_complaint_04.csv` | ข้อมูลรายปี (สำหรับ map ภาค) |
 | `th_provinces.geojson` | ขอบเขตจังหวัด (77 จังหวัด, มี `pro_th`) |
 
@@ -102,8 +102,8 @@ for year in range(2560, 2568):
 `SARIMA(1,1,1)(1,1,1)₁₂` พยากรณ์จำนวนเบาะแสรายเดือนทั้งประเทศ
 
 - **Train/test:** กันข้อมูล 12 เดือนสุดท้ายไว้ทดสอบ
-- **ผล (holdout 12 เดือน):** MAE **244** · RMSE **295** · MAPE **13.4%**
-- refit ข้อมูลทั้งหมด → พยากรณ์ล่วงหน้า 12 เดือน (ปี 2568) พร้อมช่วงความเชื่อมั่น 95%
+- **ผล (holdout 12 เดือน):** MAE **610** · RMSE **691** · MAPE **18.8%**
+- refit ข้อมูลทั้งหมด → พยากรณ์ล่วงหน้า 12 เดือน พร้อมช่วงความเชื่อมั่น 95% (เบาะแสพุ่งสูงในปี 2568–2569)
 
 **K-Means 12 features:** สัดส่วนกลุ่มเป้าหมาย 5 + สัดส่วนผลตรวจสอบ 3 + found_rate + verify_rate + log_volume + trend
 
