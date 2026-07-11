@@ -1,9 +1,9 @@
 <div align="center">
 
-# 🇹🇭 Thai Government Complaint Data — Visualization & ML
+# 🇹🇭 Thai Government Open Data — Visualization & ML
 
-**วิเคราะห์ข้อมูลเปิดภาครัฐไทย 2 ชุด เกี่ยวกับเรื่องร้องเรียน/ร้องทุกข์**
-ดึงข้อมูลจาก API จริง → EDA → แผนที่ → Clustering → Predictive Model → Interactive Dashboard
+**วิเคราะห์ข้อมูลเปิดภาครัฐไทย 3 ชุด — เรื่องร้องเรียน/ร้องทุกข์ และราคาค่าก่อสร้าง**
+ดึงข้อมูลจริง → EDA → แผนที่ → Clustering → Predictive Model → Interactive Dashboard
 
 <br>
 
@@ -15,11 +15,11 @@
 
 <br>
 
-<img src="assets/pps_map.png" width="48%" alt="แผนที่เบาะแสยาเสพติดรายจังหวัด"/>
-&nbsp;
-<img src="assets/ocpb_map.png" width="48%" alt="แผนที่เรื่องร้องทุกข์ต่อประชากร กทม."/>
+<img src="assets/pps_map.png" width="32%" alt="แผนที่เบาะแสยาเสพติดรายจังหวัด"/>
+<img src="assets/ocpb_map.png" width="32%" alt="แผนที่เรื่องร้องทุกข์ต่อประชากร กทม."/>
+<img src="assets/construct_map.png" width="32%" alt="แผนที่ราคาค่าก่อสร้างรายจังหวัด"/>
 
-<sub>ซ้าย: เบาะแสยาเสพติดรายจังหวัด (ปปส.) · ขวา: เรื่องร้องทุกข์ผู้บริโภคต่อประชากร รายเขต กทม. (สคบ.)</sub>
+<sub>เบาะแสยาเสพติดรายจังหวัด (ปปส.) · เรื่องร้องทุกข์ต่อประชากร รายเขต กทม. (สคบ.) · ราคาค่าก่อสร้างรายจังหวัด</sub>
 
 </div>
 
@@ -36,18 +36,17 @@
 
 ---
 
-## 📦 สองชุดข้อมูล
+## 📦 สามชุดข้อมูล
 
-| | 🔦 [`ปปส/`](ปปส/) — ONCB | 🛒 [`สคบ/`](สคบ/) — OCPB |
-|---|---|---|
-| **หน่วยงาน** | สนง.ป้องกันและปราบปรามยาเสพติด | สนง.คณะกรรมการคุ้มครองผู้บริโภค |
-| **ข้อมูล** | เบาะแส/ร้องเรียนยาเสพติด | เรื่องร้องทุกข์ผู้บริโภค กทม. |
-| **ช่วงเวลา** | รายเดือน 2560–2569 (114 เดือน) | สแนปช็อตปี 2569 |
-| **ขอบเขต** | 77 จังหวัด · 10 ภาค | 50 เขต · 6 กลุ่มเขต |
-| **ปริมาณ** | 8,669 แถว · 194,795 เบาะแส | 50 เขต · 8,461 เรื่อง |
-| **โมเดล** | **SARIMA** forecast · MAPE 18.8% | **Ridge** regression · R² 0.45 |
+| | 🔦 [`ปปส/`](ปปส/) | 🛒 [`สคบ/`](สคบ/) | 🏗️ [`สคบ 2/`](สคบ%202/) |
+|---|---|---|---|
+| **เรื่อง** | เบาะแสยาเสพติด (ONCB) | ร้องทุกข์ผู้บริโภค กทม. (OCPB) | ราคาค่าก่อสร้างอาคาร |
+| **ช่วงเวลา** | รายเดือน 2560–2569 | สแนปช็อตปี 2569 | ตารางมาตรฐาน |
+| **ขอบเขต** | 77 จังหวัด · 10 ภาค | 50 เขต · 6 กลุ่มเขต | 69 ประเภท × 77 จังหวัด |
+| **ปริมาณ** | 8,669 แถว · 194,795 เบาะแส | 50 เขต · 8,461 เรื่อง | 5,313 แถว |
+| **โมเดล** | **SARIMA** · MAPE 18.8% | **Ridge** · R² 0.45 | **Ridge** · R² 0.988 |
 
-<div align="center"><sub>แต่ละโฟลเดอร์: <code>*_viz.ipynb</code> · <code>*_viz.html</code> · <code>.csv</code> · <code>.geojson</code> · README + API docs</sub></div>
+<div align="center"><sub>แต่ละโฟลเดอร์: <code>*_viz.ipynb</code> · <code>*_viz.html</code> · <code>.csv</code> · <code>.geojson</code> · README</sub></div>
 
 ---
 
@@ -105,7 +104,34 @@
 
 ---
 
-## 🔁 Pipeline (เหมือนกันทั้ง 2 ชุด)
+## 🏗️ สคบ 2 — ราคาค่าก่อสร้างอาคาร
+
+> ราคาค่าก่อสร้างมาตรฐาน (บาท/ตร.ม.) · **69 ประเภทอาคาร × 77 จังหวัด = 5,313 แถว** (matrix ครบ)
+
+### 🔮 Ridge Regression — Predicted vs Actual
+
+<div align="center">
+<img src="assets/construct_regression.png" width="60%" alt="Ridge regression ราคาค่าก่อสร้าง"/>
+</div>
+
+ประเมินราคาค่าก่อสร้างจาก **ประเภทอาคาร (69) + ภูมิภาค (6)** (5-fold CV) → **R² 0.988 · MAE 227 ฿/ตร.ม.**
+ประเภทอาคารกำหนดราคาหลัก · ภูมิภาคปรับตามต้นทุนพื้นที่
+
+### 🗺️ แผนที่ · Treemap · K-Means
+
+<div align="center">
+<img src="assets/construct_treemap.png" width="32%" alt="treemap หมวด→ประเภท"/>
+<img src="assets/construct_clusters.png" width="32%" alt="K-Means clusters"/>
+<img src="assets/construct_box.png" width="32%" alt="price by category"/>
+</div>
+
+**K-Means (k=4 · 7 features):** จัดกลุ่มจังหวัดตามโครงสร้างราคา (PC1 = ระดับราคารวม 82%) — แม่ฮ่องสอน/ภาคใต้แพงสุด (ค่าขนส่ง), ที่ราบภาคกลาง/อีสานถูกสุด
+
+<div align="right"><b><a href="สคบ%202/">อ่านรายละเอียด →</a></b></div>
+
+---
+
+## 🔁 Pipeline (เหมือนกันทั้ง 3 ชุด)
 
 ```mermaid
 flowchart LR
@@ -125,11 +151,11 @@ flowchart LR
 pip install pandas plotly scikit-learn statsmodels
 
 # เปิด notebook แล้ว Run all — ได้ dashboard HTML
-jupyter notebook ปปส/pps_viz.ipynb     # หรือ  สคบ/ocpb_viz.ipynb
+jupyter notebook ปปส/pps_viz.ipynb          # หรือ  สคบ/ocpb_viz.ipynb  ·  สคบ 2/construct_viz.ipynb
 ```
 
-- 🟢 **Google Colab:** เปิดแล้ว *Run all* ได้เลย — เซลล์แรกติดตั้ง dependency และ notebook ปปส. **auto-fetch ข้อมูลล่าสุดจาก API เอง** (ไม่ต้องอัปโหลดไฟล์)
-- 🌐 **ดู dashboard ทันที:** เปิดไฟล์ [`ปปส/pps_viz.html`](ปปส/pps_viz.html) หรือ [`สคบ/ocpb_viz.html`](สคบ/ocpb_viz.html) ในเบราว์เซอร์ (ลองกดปุ่มลอย 🚨 / 🛒 มุมขวาล่าง 👀)
+- 🟢 **Google Colab:** เปิดแล้ว *Run all* ได้เลย — เซลล์แรกติดตั้ง dependency · ปปส. **auto-fetch จาก API** และ สคบ. **ฝังข้อมูลไว้ในตัว** (ไม่ต้องอัปโหลดไฟล์)
+- 🌐 **ดู dashboard ทันที:** เปิด [`ปปส/pps_viz.html`](ปปส/pps_viz.html) · [`สคบ/ocpb_viz.html`](สคบ/ocpb_viz.html) · [`สคบ 2/construct_viz.html`](สคบ%202/construct_viz.html) ในเบราว์เซอร์ (ลองกดปุ่มลอย 🚨 / 🛒 / 🏗️ มุมขวาล่าง 👀)
 
 ---
 
@@ -138,7 +164,7 @@ jupyter notebook ปปส/pps_viz.ipynb     # หรือ  สคบ/ocpb_viz.
 ```
 thai-gov-complaint-viz/
 ├── README.md
-├── assets/                     # 12 รูปผลลัพธ์ (แผนที่ · โมเดล · cluster)
+├── assets/                     # 19 รูปผลลัพธ์ (แผนที่ · โมเดล · cluster)
 ├── ปปส/                        # ONCB — เบาะแสยาเสพติด
 │   ├── pps_viz.ipynb           # notebook 22 เซลล์ (self-updating)
 │   ├── pps_viz.html            # interactive dashboard
@@ -146,12 +172,18 @@ thai-gov-complaint-viz/
 │   ├── oncb_complaint_04.csv   # ข้อมูลรายปี (map ภาค)
 │   ├── th_provinces.geojson    # ขอบเขต 77 จังหวัด
 │   └── README.md               # + API documentation
-└── สคบ/                        # OCPB — เรื่องร้องทุกข์ผู้บริโภค
-    ├── ocpb_viz.ipynb          # notebook 22 เซลล์
-    ├── ocpb_viz.html           # interactive dashboard
-    ├── ocpb_complaint_bkk.csv  # 50 เขต
-    ├── bkk_districts.geojson   # ขอบเขตเขต + ประชากร
-    └── README.md               # + API documentation
+├── สคบ/                        # OCPB — เรื่องร้องทุกข์ผู้บริโภค
+│   ├── ocpb_viz.ipynb          # notebook 22 เซลล์ (self-contained)
+│   ├── ocpb_viz.html           # interactive dashboard
+│   ├── ocpb_complaint_bkk.csv  # 50 เขต
+│   ├── bkk_districts.geojson   # ขอบเขตเขต + ประชากร
+│   └── README.md               # + API documentation
+└── สคบ 2/                      # ราคาค่าก่อสร้างอาคาร
+    ├── construct_viz.ipynb     # notebook 22 เซลล์
+    ├── construct_viz.html      # interactive dashboard
+    ├── construct_all_20240805.csv  # 69 ประเภท × 77 จังหวัด
+    ├── th_provinces.geojson    # ขอบเขต 77 จังหวัด
+    └── README.md
 ```
 
 ---
@@ -170,10 +202,11 @@ thai-gov-complaint-viz/
 
 ## 📚 แหล่งข้อมูล
 
-| ชุด | Data catalog | API |
+| ชุด | Data catalog | API / ที่มา |
 |-----|-------------|-----|
 | ปปส | [gdpublish-complain-04](https://gdcatalog.go.th/dataset/gdpublish-complain-04) | [data.oncb.go.th](https://data.oncb.go.th/complain_021) |
 | สคบ | [gdpublish-opendata-03](https://gdcatalog.go.th/dataset/gdpublish-opendata-03) | [OCPB Connect](https://ocpbconnect.ocpb.go.th/Report/Detail?report_id=7EF99779-95B5-4541-A374-378B1CD11140) |
+| สคบ 2 | ตารางราคามาตรฐานค่าก่อสร้าง | `construct_all_20240805.csv` (ไม่มี public API) |
 
 **ขอบเขตแผนที่:** [chingchai/OpenGISData-Thailand](https://github.com/chingchai/OpenGISData-Thailand) (จังหวัด) · [pcrete/gsvloader-demo](https://github.com/pcrete/gsvloader-demo) (เขต กทม.)
 
