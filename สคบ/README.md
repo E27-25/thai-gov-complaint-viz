@@ -79,8 +79,11 @@ Params  : yearStart (int) · yearEnd (int)
 
 ## 📁 ไฟล์
 
-| ไฟล์ | รายละเอียด |
-|------|-----------|
-| `ocpb_viz.ipynb` · `ocpb_viz.html` | notebook (22 เซลล์) + dashboard |
-| `ocpb_complaint_bkk.csv` | 50 เขต · 4 หมวด · กลุ่มเขต · ยอดรวม |
-| `bkk_districts.geojson` | ขอบเขตเขต กทม. (50 เขต + ประชากร) |
+```
+สคบ/
+├── code/   ocpb_viz.ipynb · ocpb_viz.html    ← notebook (22 เซลล์) + dashboard
+└── data/   ocpb_complaint_bkk.csv (50 เขต · 4 หมวด · กลุ่มเขต · ยอดรวม)
+            bkk_districts.geojson (ขอบเขตเขต กทม. + ประชากร)
+```
+
+> notebook อ่านข้อมูลจาก `../data/` อัตโนมัติ (ถ้าไม่พบจะสร้างจากสแนปช็อตที่ฝังไว้) — เปิดใน Colab ก็รันได้

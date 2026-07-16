@@ -67,8 +67,11 @@
 
 ## 📁 ไฟล์
 
-| ไฟล์ | รายละเอียด |
-|------|-----------|
-| `construct_viz.ipynb` · `construct_viz.html` | notebook (22 เซลล์) + dashboard |
-| `construct_all_20240805.csv` | ราคา 5,313 แถว (69 ประเภท × 77 จังหวัด) |
-| `th_provinces.geojson` | ขอบเขต 77 จังหวัด |
+```
+สคบ 2/
+├── code/   construct_viz.ipynb · construct_viz.html   ← notebook (22 เซลล์) + dashboard
+└── data/   construct_all_20240805.csv (ราคา 5,313 แถว · 69 ประเภท × 77 จังหวัด)
+            th_provinces.geojson (ขอบเขต 77 จังหวัด)
+```
+
+> notebook อ่านข้อมูลจาก `../data/` อัตโนมัติ — เปิดใน Colab อัปโหลด CSV แล้วรันได้

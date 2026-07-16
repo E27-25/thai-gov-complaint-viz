@@ -151,40 +151,37 @@ flowchart LR
 pip install pandas plotly scikit-learn statsmodels
 
 # เปิด notebook แล้ว Run all — ได้ dashboard HTML
-jupyter notebook ปปส/pps_viz.ipynb          # หรือ  สคบ/ocpb_viz.ipynb  ·  สคบ 2/construct_viz.ipynb
+jupyter notebook ปปส/code/pps_viz.ipynb     # หรือ  สคบ/code/ocpb_viz.ipynb  ·  สคบ 2/code/construct_viz.ipynb
 ```
 
 - 🟢 **Google Colab:** เปิดแล้ว *Run all* ได้เลย — เซลล์แรกติดตั้ง dependency · ปปส. **auto-fetch จาก API** และ สคบ. **ฝังข้อมูลไว้ในตัว** (ไม่ต้องอัปโหลดไฟล์)
-- 🌐 **ดู dashboard ทันที:** เปิด [`ปปส/pps_viz.html`](ปปส/pps_viz.html) · [`สคบ/ocpb_viz.html`](สคบ/ocpb_viz.html) · [`สคบ 2/construct_viz.html`](สคบ%202/construct_viz.html) ในเบราว์เซอร์ (ลองกดปุ่มลอย 🚨 / 🛒 / 🏗️ มุมขวาล่าง 👀)
+- 🌐 **ดู dashboard ทันที:** เปิด [`ปปส/code/pps_viz.html`](ปปส/code/pps_viz.html) · [`สคบ/code/ocpb_viz.html`](สคบ/code/ocpb_viz.html) · [`สคบ 2/code/construct_viz.html`](สคบ%202/code/construct_viz.html) ในเบราว์เซอร์ (ลองกดปุ่มลอย 🚨 / 🛒 / 🏗️ มุมขวาล่าง 👀)
 
 ---
 
 ## 📁 โครงสร้างโปรเจกต์
 
+แต่ละโฟลเดอร์แยกเป็น **`code/`** (notebook + dashboard) และ **`data/`** (csv + geojson):
+
 ```
 thai-gov-complaint-viz/
 ├── README.md
-├── assets/                     # 19 รูปผลลัพธ์ (แผนที่ · โมเดล · cluster)
-├── ปปส/                        # ONCB — เบาะแสยาเสพติด
-│   ├── pps_viz.ipynb           # notebook 22 เซลล์ (self-updating)
-│   ├── pps_viz.html            # interactive dashboard
-│   ├── oncb_verify_monthly.csv # ข้อมูลรายเดือน 2560–2569
-│   ├── oncb_complaint_04.csv   # ข้อมูลรายปี (map ภาค)
-│   ├── th_provinces.geojson    # ขอบเขต 77 จังหวัด
-│   └── README.md               # + API documentation
-├── สคบ/                        # OCPB — เรื่องร้องทุกข์ผู้บริโภค
-│   ├── ocpb_viz.ipynb          # notebook 22 เซลล์ (self-contained)
-│   ├── ocpb_viz.html           # interactive dashboard
-│   ├── ocpb_complaint_bkk.csv  # 50 เขต
-│   ├── bkk_districts.geojson   # ขอบเขตเขต + ประชากร
-│   └── README.md               # + API documentation
-└── สคบ 2/                      # ราคาค่าก่อสร้างอาคาร
-    ├── construct_viz.ipynb     # notebook 22 เซลล์
-    ├── construct_viz.html      # interactive dashboard
-    ├── construct_all_20240805.csv  # 69 ประเภท × 77 จังหวัด
-    ├── th_provinces.geojson    # ขอบเขต 77 จังหวัด
-    └── README.md
+├── assets/                       # 19 รูปผลลัพธ์ (แผนที่ · โมเดล · cluster)
+├── ปปส/                          # ONCB — เบาะแสยาเสพติด
+│   ├── README.md                 # + API documentation
+│   ├── code/  pps_viz.ipynb · pps_viz.html
+│   └── data/  oncb_verify_monthly.csv · oncb_complaint_04.csv · th_provinces.geojson
+├── สคบ/                          # OCPB — เรื่องร้องทุกข์ผู้บริโภค
+│   ├── README.md
+│   ├── code/  ocpb_viz.ipynb · ocpb_viz.html
+│   └── data/  ocpb_complaint_bkk.csv · bkk_districts.geojson
+└── สคบ 2/                        # ราคาค่าก่อสร้างอาคาร
+    ├── README.md
+    ├── code/  construct_viz.ipynb · construct_viz.html
+    └── data/  construct_all_20240805.csv · th_provinces.geojson
 ```
+
+> notebook อ้าง `../data/` อัตโนมัติ (ใช้โฟลเดอร์ปัจจุบันถ้าไม่มี) — จึงรันได้ทั้งในโครงสร้างนี้และบน Colab
 
 ---
 

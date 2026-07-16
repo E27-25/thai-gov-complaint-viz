@@ -93,9 +93,11 @@ for year in range(2560, 2570):          # 2569 มีถึงเดือน 06
 
 ## 📁 ไฟล์
 
-| ไฟล์ | รายละเอียด |
-|------|-----------|
-| `pps_viz.ipynb` · `pps_viz.html` | notebook (22 เซลล์) + dashboard |
-| `oncb_verify_monthly.csv` | รายเดือน 8,669 แถว (2560–2569) |
-| `oncb_complaint_04.csv` | รายปี (map ภาค) |
-| `th_provinces.geojson` | ขอบเขต 77 จังหวัด |
+```
+ปปส/
+├── code/   pps_viz.ipynb · pps_viz.html      ← notebook (22 เซลล์) + dashboard
+└── data/   oncb_verify_monthly.csv (รายเดือน 8,669 แถว 2560–2569)
+            oncb_complaint_04.csv (รายปี · map ภาค) · th_provinces.geojson (77 จังหวัด)
+```
+
+> notebook อ่านข้อมูลจาก `../data/` อัตโนมัติ (ถ้าไม่พบจะ auto-fetch จาก API) — เปิดใน Colab ก็รันได้
