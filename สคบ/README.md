@@ -1,119 +1,86 @@
 # 🛒 สคบ — เรื่องร้องทุกข์ผู้บริโภค กทม. (OCPB)
 
-สถิติ**เรื่องร้องทุกข์ผู้บริโภค**ในเขตกรุงเทพมหานคร จากสำนักงานคณะกรรมการคุ้มครองผู้บริโภค (สคบ. / OCPB)
+> สถิติ**เรื่องร้องทุกข์ผู้บริโภค**ในเขตกรุงเทพมหานคร · สำนักงานคณะกรรมการคุ้มครองผู้บริโภค (OCPB)
 
-| | |
-|---|---|
-| **ช่วงเวลา** | ปี 2569 (สแนปช็อตปีปัจจุบัน) |
-| **ขอบเขต** | 50 เขต · 6 กลุ่มเขต (กทม.) |
-| **ปริมาณ** | 8,461 เรื่อง (ยุติ 5,200 · กำลังดำเนินการ 3,261) |
-
-<p align="center">
-  <img src="../assets/ocpb_map.png" width="46%"/>
-  <img src="../assets/ocpb_regression.png" width="52%"/>
-</p>
-
-### 🔎 ข้อค้นพบสำคัญ
-
-- 🏙️ **เขตที่ร้องทุกข์มากสุด** — จตุจักร 489 · ประเวศ 317 · บางเขน 302 · สายไหม 281 · บางแค 278
-- 👥 **ต่อประชากรสูงสุด** — ห้วยขวาง 30.9 · จตุจักร 30.3 · วัฒนา 28.7 เรื่อง/หมื่นคน (ย่านธุรกิจ/พาณิชย์หนาแน่น)
-- 🧭 **กลุ่มเขตเหนือมากสุด** — กรุงเทพเหนือ 1,847 เรื่อง (จตุจักรเป็นตัวดึง) · น้อยสุด ธนบุรีเหนือ 1,050
-- ✅ **ยุติเรื่องแล้ว 61%** (5,200) · กำลังดำเนินการ 39% (3,261)
-
-<p align="center"><img src="../assets/ocpb_status.png" width="42%" alt="สถานะเรื่องร้องทุกข์"/></p>
+| ช่วงเวลา | ขอบเขต | ปริมาณ | สถานะ | โมเดล |
+|---|---|---|---|---|
+| สแนปช็อตปี 2569 | 50 เขต · 6 กลุ่มเขต | 8,461 เรื่อง | ยุติ 61% · ดำเนินการ 39% | Ridge · R² 0.45 |
 
 ---
 
-## 🔌 API — วิธีดึงข้อมูล
+## 🔎 ข้อค้นพบสำคัญ
 
-**Data catalog:** https://gdcatalog.go.th/dataset/gdpublish-opendata-03
-**Dashboard:** https://ocpbconnect.ocpb.go.th/Report/Detail?report_id=7EF99779-95B5-4541-A374-378B1CD11140
-**เอกสาร API (PDF):** [คู่มือ Web Service ComplaintBangkok](https://ocpb.gdcatalog.go.th/dataset/10b080fa-7f7e-43b3-8f17-32a8edacd88f/resource/b5ff7dde-d734-4c1f-9584-0a06b57755f6/download/untitled.pdf)
+- 🏙️ **เขตที่ร้องทุกข์มากสุด** — จตุจักร 489 · ประเวศ 317 · บางเขน 302 · สายไหม 281 · บางแค 278
+- 👥 **ต่อประชากรสูงสุด** — ห้วยขวาง 30.9 · จตุจักร 30.3 · วัฒนา 28.7 เรื่อง/หมื่นคน (ย่านธุรกิจหนาแน่น)
+- 🧭 **กลุ่มเขตเหนือมากสุด** — กรุงเทพเหนือ 1,847 เรื่อง · น้อยสุด ธนบุรีเหนือ 1,050
+- ✅ **ยุติเรื่องแล้ว 61%** (5,200) · กำลังดำเนินการ 39% (3,261)
 
-### Official Web Service — `ComplaintBangkok`
+---
+
+## 📊 ผลการวิเคราะห์
+
+**🗺️ แผนที่ & โครงสร้างพื้นที่**
+
+| แผนที่: เรื่องร้องทุกข์ต่อประชากรหมื่นคน | Treemap: กลุ่มเขต → เขต |
+|:---:|:---:|
+| <img src="../assets/ocpb_map.png" width="100%"/> | <img src="../assets/ocpb_treemap.png" width="100%"/> |
+
+**📈 องค์ประกอบประเภท & สถานะเรื่อง**
+
+| สัดส่วน 4 หมวด แยกตามกลุ่มเขต | สถานะเรื่อง (ยุติ / ดำเนินการ) |
+|:---:|:---:|
+| <img src="../assets/ocpb_composition.png" width="100%"/> | <img src="../assets/ocpb_status.png" width="100%"/> |
+
+**🧩 K-Means Clustering** — จัดกลุ่ม 50 เขตตามโปรไฟล์เรื่องร้องทุกข์ (7 features → PCA 2 มิติ)
+
+<p align="center"><img src="../assets/ocpb_clusters.png" width="70%"/></p>
+
+**🔮 Ridge Regression** — ทำนายจำนวนเรื่องร้องทุกข์รายเขต · แสดง *predicted vs actual*
+
+<p align="center"><img src="../assets/ocpb_regression.png" width="66%"/></p>
+
+---
+
+## 🔮 โมเดล & ฟีเจอร์
+
+- **Ridge Regression** — ทำนายจำนวนเรื่องจาก **ประชากร + สัดส่วนประเภท 4 หมวด + กลุ่มเขต** (5-fold CV) → **R² 0.45 · MAE 42**
+  ประชากรเป็น feature หลัก (corr ≈ 0.68) · จตุจักรเป็น outlier ชัดเจน · ส่วนที่เหลือ = ปัจจัยเศรษฐกิจ/พาณิชย์ที่ไม่มีในข้อมูล
+- **K-Means (k=4) — 7 features:** สัดส่วนประเภท 4 + log_volume + top_share (ความกระจุกตัว) + entropy (ความหลากหลาย)
+- **6 กลุ่มเขต (กทม.):** กรุงเทพกลาง · กรุงเทพใต้ · กรุงเทพเหนือ · กรุงเทพตะวันออก · ธนบุรีเหนือ · ธนบุรีใต้
+
+---
+
+## 🔌 ข้อมูล & การเข้าถึง
+
+catalog: [gdpublish-opendata-03](https://gdcatalog.go.th/dataset/gdpublish-opendata-03) · [OCPB Connect dashboard](https://ocpbconnect.ocpb.go.th/Report/Detail?report_id=7EF99779-95B5-4541-A374-378B1CD11140)
+
+> ⚠️ **Web Service ทางการ (`ComplaintBangkok`) ต้องใช้ `apiKey` + `password`** ที่ไม่เผยแพร่สาธารณะ — โปรเจกต์นี้จึงดึงจาก **public Tableau dashboard** แทน ทำให้ได้เฉพาะ **สแนปช็อตปี 2569** · ไม่มีข้อมูลย้อนหลัง (ไม่มี time series) · หมวดประเภทแสดงเป็น *หมวด 1–4* (dashboard ไม่เปิดชื่อ)
+
+<details><summary><b>📋 Official Web Service API + Response schema (คลิก)</b></summary>
 
 ```
 GET https://ocpbconnect.ocpb.go.th/api/Complaint/ComplaintBangkok
+Headers : apiKey (required) · password (required)
+Params  : yearStart (int) · yearEnd (int)
 ```
 
-| Header | Required | Type | คำอธิบาย |
-|--------|----------|------|----------|
-| `apiKey` | ✅ | String | API Key |
-| `password` | ✅ | String | รหัสผ่าน |
+| Field | คำอธิบาย |
+|-------|----------|
+| `complaintTotal` / `complaintInprogressTotal` / `complaintTerminateTotal` | จำนวนทั้งหมด / กำลังดำเนินการ / ยุติ |
+| `complaintTumbon[]` | array แยกตาม ปี · ประเภท · สถานะ · เขต (`ampher`) · แขวง (`tumbon`) |
 
-| Query param | Type | คำอธิบาย |
-|-------------|------|----------|
-| `yearStart` | Int | ปีเริ่มต้น |
-| `yearEnd` | Int | ปีสิ้นสุด |
-
-<details><summary><b>📋 Response schema</b></summary>
-
-| Field | Type | คำอธิบาย |
-|-------|------|----------|
-| `complaintTotal` | Int | จำนวนเรื่องทั้งหมด |
-| `complaintInprogressTotal` | Int | กำลังดำเนินการ |
-| `complaintTerminateTotal` | Int | ยุติแล้ว |
-| `complaintTumbon[]` | Array | แยกตาม ปี · ประเภท · สถานะ · เขต · แขวง |
-| `…​.year / .count` | Int | ปี / จำนวนเรื่อง |
-| `…​.categoryName` | String | ประเภทการร้องทุกข์ |
-| `…​.statusName` | String | สถานะ |
-| `…​.ampher / .tumbon` | String | เขต / แขวง |
+[คู่มือ API (PDF)](https://ocpb.gdcatalog.go.th/dataset/10b080fa-7f7e-43b3-8f17-32a8edacd88f/resource/b5ff7dde-d734-4c1f-9584-0a06b57755f6/download/untitled.pdf) · หากมี credential จะขยายเป็น time series ย้อนหลัง + ชื่อประเภทจริง + ระดับแขวงได้
 
 </details>
 
-### ⚠️ หมายเหตุการเข้าถึงข้อมูล
-
-Web Service ทางการต้องใช้ **`apiKey` + `password`** ซึ่งไม่ได้เผยแพร่สาธารณะ
-ข้อมูลในโปรเจกต์นี้จึงดึงจาก **public Tableau dashboard** ของ สคบ. (ocpbconnect) แทน โดยมีข้อจำกัด:
-
-- เป็น**สแนปช็อตปีปัจจุบัน (2569)** เท่านั้น — ไม่มีข้อมูลย้อนหลัง (จึงไม่มี time series)
-- dashboard **ไม่เปิดเผยชื่อ 4 หมวดประเภท** (แสดงเป็น หมวด 1–4)
-- ระดับ**แขวง**และ**ประเภทตามปี**ต้องใช้ Web Service API ที่มี credential
-
-> หากมี `apiKey`+`password` สามารถขยายเป็น time series ย้อนหลัง + ชื่อประเภทจริง + ระดับแขวงได้
+> ♻️ **Self-contained:** notebook ฝังสแนปช็อต 50 เขตไว้ในตัว + สร้าง CSV ให้ถ้าไม่พบ · geojson โหลดจาก URL เอง — เปิดใน Colab แล้ว *Run all* ได้เลย
 
 ---
 
-## 📁 ไฟล์ในโฟลเดอร์
+## 📁 ไฟล์
 
-| ไฟล์ | คำอธิบาย |
-|------|----------|
-| `ocpb_viz.ipynb` | Notebook หลัก (22 เซลล์) — EDA · แผนที่ · K-Means · Ridge · **self-contained** |
-| `ocpb_viz.html` | Dashboard แบบ interactive |
+| ไฟล์ | รายละเอียด |
+|------|-----------|
+| `ocpb_viz.ipynb` · `ocpb_viz.html` | notebook (22 เซลล์) + dashboard |
 | `ocpb_complaint_bkk.csv` | 50 เขต · 4 หมวด · กลุ่มเขต · ยอดรวม |
-| `bkk_districts.geojson` | ขอบเขตเขต กทม. (50 เขต + ข้อมูลประชากร) |
-
-## ♻️ Self-contained
-
-เซลล์โหลดข้อมูล **ฝังสแนปช็อต 50 เขตไว้ในตัว notebook** และจะ *สร้างไฟล์ CSV ให้อัตโนมัติถ้าไม่พบ* ส่วน geojson ก็ดึงจาก URL เอง —
-เปิดใน Google Colab แล้ว *Run all* ได้เลยโดยไม่ต้องอัปโหลดไฟล์ใด ๆ
-(ต่างจาก ปปส. ที่ auto-fetch จาก API ได้ — สคบ. เป็นสแนปช็อตปีเดียวเพราะ dashboard สาธารณะไม่มี API ย้อนหลัง จึงฝังข้อมูลไว้แทน)
-
-## 📊 สิ่งที่อยู่ใน Notebook
-
-1. **Treemap** — กลุ่มเขต (6) → เขต (50)
-2. **แผนที่ Choropleth** — เรื่องร้องทุกข์ต่อประชากร 10,000 คน
-3. **องค์ประกอบประเภท** แยกตามกลุ่มเขต + **โดนัทสถานะ**
-4. **Top 15 เขต**
-5. **K-Means (k=4)** + PCA scatter + cluster profiles
-6. **🔮 Ridge regression** — ทำนายจำนวนเรื่องร้องทุกข์ (ด้านล่าง)
-
-## 🔮 Predictive Model — Ridge Regression
-
-ทำนาย*จำนวนเรื่องร้องทุกข์*รายเขต จาก **ประชากร + สัดส่วนประเภท (4 หมวด) + กลุ่มเขต (one-hot)**
-
-- **ประเมิน:** 5-fold cross-validation → **R² 0.45 · MAE 42**
-- ประชากรมี correlation กับจำนวนเรื่อง ≈ **0.68** และเป็น feature ที่มีน้ำหนักมากที่สุด
-- ส่วนที่เหลืออธิบายไม่ได้ = ปัจจัยเชิงเศรษฐกิจ/พาณิชย์ที่ไม่มีในข้อมูลเปิด (จตุจักรเป็น outlier ชัดเจน)
-
-**K-Means 7 features:** สัดส่วนประเภท 4 + log_volume + top_share (ความกระจุกตัว) + entropy (ความหลากหลาย)
-
-<p align="center">
-  <img src="../assets/ocpb_treemap.png" width="32%"/>
-  <img src="../assets/ocpb_composition.png" width="32%"/>
-  <img src="../assets/ocpb_clusters.png" width="32%"/>
-</p>
-
-## 🗺️ BKK 6 กลุ่มเขต
-
-`กรุงเทพกลาง` · `กรุงเทพใต้` · `กรุงเทพเหนือ` · `กรุงเทพตะวันออก` · `ธนบุรีเหนือ` · `ธนบุรีใต้` (แบ่งตามการจัดกลุ่มเขตของ กทม.)
+| `bkk_districts.geojson` | ขอบเขตเขต กทม. (50 เขต + ประชากร) |
