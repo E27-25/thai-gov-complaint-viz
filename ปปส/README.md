@@ -101,6 +101,7 @@ for year in range(2560, 2570):          # 2569 มีถึงเดือน 06
 ```
 ปปส/
 ├── code/   pps_viz.ipynb · pps_viz.html      ← notebook (22 เซลล์) + dashboard
+│           DGA_Assignment.ipynb              ← แบบฝึกปฏิบัติสอน viz/model (Colab, ภาษาไทย)
 └── data/   oncb_verify_monthly.csv (รายเดือน 8,669 แถว 2560–2569)
             oncb_complaint_04.csv (รายปี · map ภาค) · th_provinces.geojson (77 จังหวัด)
             th_province_population.csv (ประชากรรายจังหวัด · สำหรับ per-capita)
