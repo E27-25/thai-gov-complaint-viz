@@ -131,6 +131,16 @@
 
 ---
 
+## 📓 แบบฝึกปฏิบัติการฝึกอบรม (Training)
+
+> [`Assignment รุ่นที่ 3/`](Assignment%20รุ่นที่%203/) — เอกสารประกอบการฝึกอบรมข้าราชการ/บุคลากรภาครัฐ (ภาษาไทยทางการ) บน **Google Colab**
+
+Notebook สอน + แบบฝึกปฏิบัติ (มีเฉลย) ต่อยอดจากชุดข้อมูล **ปปส.** — ครอบคลุมคำสั่งพื้นฐาน `pandas`, การนำเสนอข้อมูล (Histogram · Bar · Line · แผนที่ Choropleth), การจัดกลุ่ม **K-Means + PCA** และการถดถอย **Linear Regression** · เรียงจากระดับพื้นฐานไปสู่ระดับสูง · ดาวน์โหลดข้อมูลเองอัตโนมัติ กด *Run all* ได้ทันที
+
+<div align="right"><b><a href="Assignment%20รุ่นที่%203/">เปิดแบบฝึกปฏิบัติ →</a></b></div>
+
+---
+
 ## 🔁 Pipeline (เหมือนกันทั้ง 3 ชุด)
 
 ```mermaid
@@ -175,10 +185,13 @@ thai-gov-complaint-viz/
 │   ├── README.md
 │   ├── code/  ocpb_viz.ipynb · ocpb_viz.html
 │   └── data/  ocpb_complaint_bkk.csv · bkk_districts.geojson
-└── สคบ 2/                        # ราคาค่าก่อสร้างอาคาร
+├── สคบ 2/                        # ราคาค่าก่อสร้างอาคาร
+│   ├── README.md
+│   ├── code/  construct_viz.ipynb · construct_viz.html
+│   └── data/  construct_all_20240805.csv · th_provinces.geojson
+└── Assignment รุ่นที่ 3/          # แบบฝึกปฏิบัติการฝึกอบรม (Colab · ภาษาไทย)
     ├── README.md
-    ├── code/  construct_viz.ipynb · construct_viz.html
-    └── data/  construct_all_20240805.csv · th_provinces.geojson
+    └── DGA_Assignment.ipynb
 ```
 
 > notebook อ้าง `../data/` อัตโนมัติ (ใช้โฟลเดอร์ปัจจุบันถ้าไม่มี) — จึงรันได้ทั้งในโครงสร้างนี้และบน Colab
